@@ -1,0 +1,25 @@
+{
+  "name": "ksmemo",
+  "version": "1.0.0",
+  "description": "simple memo app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flamel2020/ksmemo.git"
+  },
+  "keywords": [
+    "memo"
+  ],
+  "author": "kwangsun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flamel2020/ksmemo/issues"
+  },
+  "homepage": "https://github.com/flamel2020/ksmemo#readme",
+  "devDependencies": {
+    "pm2": "^4.4.0"
+  }
+}
