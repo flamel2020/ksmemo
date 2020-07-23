@@ -1,13 +1,16 @@
 const qs = require("querystring")
-
+const fs = require("fs")
 require("http").createServer((req, res) => {
     console.log(req.url);
+    if (req.url === "/save") {
     let body = ""
     req.on("data", (data) => body += data )
     req.on("end", () => {
       const data = qs.parse(body)
       console.log(data)
+      fs.writeFile("data.txt", data.memo, "utf-8", (err) => res.end("errror"))
     })
+    }
     const getMemo = (i) => `
         <div>
             <input type="button" value="remove" onclick="alert("remove01") /> 
