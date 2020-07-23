@@ -8,23 +8,32 @@ require("http").createServer((req, res) => {
     req.on("end", () => {
       const data = qs.parse(body)
       console.log(data)
-      fs.writeFile("data.txt", data.memo, "utf-8", (err) => res.end("errror"))
+      data.id = Date.now();
+      data.date = new Date().toLocaleString()
+      fs.writeFile(`data/${id}.data`, JSON.stringify(data), "utf-8", (err) => res.end("errror"))
     })
     }
-    const getMemo = (i) => `
+    fs.readdir(data, (err, files) => {
+      files.forEach( (file) => {
+        console.log(file)
+        fs.readFile(`data/${file}`, "utf-8", (err, str) => {
+          const data = JSON.parse(str)
+          
+        } )
+      })
+    })
+    const getMemo = (id, date, memo) => `
         <div>
-            <input type="button" value="remove" onclick="alert("remove01") /> 
-            ${new Date().toLocaleString()} <br />
-            memo ${i} ssjfkjdslkfjadlfkklkd;l;lkajdfkljadslfkaksadjkfkdaslfjdakslfjdsklfjadslfk
-            dfjklaalkasdfklasdjflkadjkldsaj
-            adsjklfjaslfklakdlsjfl;dks<p />
+            <input type="button" value="remove" onclick="alert("remove${id}") /> 
+            ${data} <br />
+            memo : ${memo} <p />
         </div>
         `;
     const memolist = [1,2,3,4,5,6].map(i => getMemo(i)).join("")
     const writeform = `
         <div>
             <form id="writeform" action="/save" method="post">
-                <input type="textarea" name=memo placeholder="write new memo" />
+                <input type="text" name=memo placeholder="write new memo" />
                 <button type="submit" form="writeform" > save </button>
             </form>
         </div>
