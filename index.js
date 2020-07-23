@@ -1,4 +1,13 @@
+const qs = require("querystring")
+
 require("http").createServer((req, res) => {
+    console.log(req.url);
+    let body = ""
+    req.on("data", (data) => body += data )
+    req.on("end", () => {
+      const data = qs.parse(body)
+      console.log(data)
+    })
     const getMemo = (i) => `
         <div>
             <input type="button" value="remove" onclick="alert("remove01") /> 
@@ -11,9 +20,9 @@ require("http").createServer((req, res) => {
     const memolist = [1,2,3,4,5,6].map(i => getMemo(i)).join("")
     const writeform = `
         <div>
-            <form action="/save" method="post">
+            <form id="writeform" action="/save" method="post">
                 <input type="textarea" name=memo placeholder="write new memo" />
-                <input type="button" value="save" />
+                <button type="submit" form="writeform" > save </button>
             </form>
         </div>
         `;
