@@ -32,7 +32,13 @@ const makeHtml = (writeform, memolist) => `
     `;
 
 const onlist = (req, res) => {
-    fs.readdir("data", (err, files) => {
+    if (!fs.existsSync('data')) {
+        const html = makeHtml(writeForm, "")
+        res.writeHead(200);
+        res.end(html);
+        return;
+    }
+    fs.readdir("data", (err, ) => {
         console.log("files: " + files)
         let memolist = ""
         
