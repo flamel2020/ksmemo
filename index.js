@@ -35,7 +35,7 @@ const onlist = (req, res) => {
     if (!fs.existsSync('data')) {
         fs.mkdirSync('data')
     }
-    fs.readdir("data", (err, ) => {
+    fs.readdir("data", (err, files) => {
         console.log("files: " + files)
         let memolist = ""
         
