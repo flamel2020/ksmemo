@@ -33,10 +33,7 @@ const makeHtml = (writeform, memolist) => `
 
 const onlist = (req, res) => {
     if (!fs.existsSync('data')) {
-        const html = makeHtml(writeForm, "")
-        res.writeHead(200);
-        res.end(html);
-        return;
+        fs.mkdirSync('data')
     }
     fs.readdir("data", (err, ) => {
         console.log("files: " + files)
@@ -93,4 +90,4 @@ require("http").createServer((req, res) => {
         res.end("Not Found")
     }
 
-}).listen(3000);
+}).listen(3001);
