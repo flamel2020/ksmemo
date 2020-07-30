@@ -38,7 +38,7 @@ require("http").createServer((req, res) => {
                                         }
                                         log(`stdout: ${stdout}`);
                                         res.writeHead(200);
-                                        res.end("UPDATE")
+                                        res.end("RESTART")
                                 })
                         })
                 } catch (e) {
