@@ -2,11 +2,11 @@
 
 const qs = require("querystring")
 const fs = require("fs");
-const { exec } = require("child_process");
+const process = require("child_process");
 
 const cur = () => new Date().toLocaleString()
 const log = (msg) => {console.log(` .. ${cur()} ${msg}`)}
-const logerr = (msg) => {console.err(` .. ${cur()} ${msg}`)}
+const logerr = (msg) => {console.error(` .. ${cur()} ${msg}`)}
 
 require("http").createServer((req, res) => {
 console.log(`client: ${req.url} at ${cur()}`)
@@ -20,26 +20,25 @@ console.log(`client: ${req.url} at ${cur()}`)
                 log(`action: ${payload.action}`)
                 log(`full_name: ${payload.repository.full_name}`)
                 log(`updated_at: ${payload.repository.updated_at}`)
-                log(`url: ${payload.package.registry.url}`)
-                log(`version: ${payload.package.package_version.version}`)
+                log(`url: ${payload.registry_package.registry.url}`)
+                log(`version: ${payload.registry_package.package_version.version}`)
 
-                exec("./restart.sh", (error, stdout, stderr) => {
-                    if (error) {
-                        log(`error: ${error.message}`);
-                        res.writeHead(500);
-                        res.end(`UPDATE ERROR : ${error.message}`)
-                        return;
-                    }
-                    if (stderr) {
-                        log(`stderr: ${stderr}`);
-                        res.writeHead(500);
-                        res.end(`UPDATE ERROR : ${stderr}`)
-                        return;
-                    }
-                    log(`stdout: ${stdout}`);
-                    res.writeHead(200);
-                    res.end("RESTART")
-                })
+                const result = process.spwnSync("./restart.sh", [], {timeout: 20*1000})
+                if (result.error) {
+                    log(`error: ${result.error}`);
+                    res.writeHead(500);
+                    res.end(`RESTART ERROR : ${result.error}`)
+                    return;
+                }
+                if (result.stderr) {
+                    log(`stderr: ${result.stderr}`);
+                    res.writeHead(500);
+                    res.end(`RESTART ERROR : ${result.stderr}`)
+                    return;
+                }
+                log(`stdout: ${result.stdout}`);
+                res.writeHead(200);
+                res.end("RESTART")
             } catch (e) {
                 logerr(e);
                 logerr(e.message);
