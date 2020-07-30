@@ -23,17 +23,11 @@ console.log(`client: ${req.url} at ${cur()}`)
                 log(`url: ${payload.registry_package.registry.url}`)
                 log(`version: ${payload.registry_package.package_version.version}`)
 
-                const result = process.spwnSync("./restart.sh", [], {timeout: 20*1000})
+                const result = process.spawnSync("./restart.sh", [], {timeout: 20*1000})
                 if (result.error) {
                     log(`error: ${result.error}`);
                     res.writeHead(500);
                     res.end(`RESTART ERROR : ${result.error}`)
-                    return;
-                }
-                if (result.stderr) {
-                    log(`stderr: ${result.stderr}`);
-                    res.writeHead(500);
-                    res.end(`RESTART ERROR : ${result.stderr}`)
                     return;
                 }
                 log(`stdout: ${result.stdout}`);
