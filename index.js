@@ -23,7 +23,7 @@ const makeMemo = (id, date, memo) => `
 
 const makeHtml = (writeform, memolist) => `
     <html>
-        <head><title>ksmemo</title></head>
+        <head><title>KSMEMO</title></head>
         <body>
             ${writeform}
             ${memolist}
